@@ -42,7 +42,7 @@ class OrderedIterableImpl<TElement, TSortKey>
 
   @override
   Iterator<TElement> get iterator {
-    return _orderAll().iterator;
+    return _order().iterator;
   }
 
   @override
@@ -66,9 +66,15 @@ class OrderedIterableImpl<TElement, TSortKey>
     return createOrderedIterable<TKey>(keySelector, true, comparer);
   }
 
-  List<List<TElement>> _order(List<List<TElement>> data, bool lastLevel) {
-    final result = <List<TElement>>[];
-    Comparator<TElement> comparator;
+  List<TElement> _order() {
+    final List<TElement> result;
+    if (parent != null) {
+      result = parent!._order();
+    } else {
+      result = source.toList();
+    }
+
+    final Comparator<TElement> comparator;
     if (descending) {
       comparator = (TElement a, TElement b) =>
           -comparer.compare(keySelector(a), keySelector(b));
@@ -78,66 +84,7 @@ class OrderedIterableImpl<TElement, TSortKey>
     }
 
     final sorter = SymmergeSorter<TElement>(comparator);
-    final numberOfParts = data.length;
-    for (var i = 0; i < numberOfParts; i++) {
-      final elements = data[i];
-      sorter.sort(elements);
-      if (lastLevel) {
-        result.add(elements);
-        continue;
-      }
-
-      final numberOfElements = elements.length;
-      if (numberOfElements == 1) {
-        result.add([elements[0]]);
-        continue;
-      }
-
-      var previous = elements[0];
-      var newElements = [previous];
-      result.add(newElements);
-      for (var j = 1; j < numberOfElements; j++) {
-        final element = elements[j];
-        if (comparator(element, previous) != 0) {
-          newElements = <TElement>[];
-          result.add(newElements);
-        }
-
-        newElements.add(element);
-        previous = element;
-      }
-    }
-
+    sorter.sort(result);
     return result;
-  }
-
-  Iterable<TElement> _orderAll() sync* {
-    final source = this.source.toList();
-    if (source.isEmpty) {
-      return;
-    }
-
-    var data = <List<TElement>>[];
-    data.add(source);
-    final queue = <OrderedIterableImpl<TElement, Object?>>[];
-    OrderedIterableImpl<TElement, Object?>? sequence = this;
-    while (sequence != null) {
-      queue.add(sequence);
-      sequence = sequence.parent;
-    }
-
-    for (var i = queue.length - 1; i >= 0; i--) {
-      final sequence = queue[i];
-      data = sequence._order(data, i == 0);
-    }
-
-    final numberOfParts = data.length;
-    for (var i = 0; i < numberOfParts; i++) {
-      final elements = data[i];
-      final numberOfElements = elements.length;
-      for (var j = 0; j < numberOfElements; j++) {
-        yield elements[j];
-      }
-    }
   }
 }

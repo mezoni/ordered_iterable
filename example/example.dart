@@ -1,11 +1,11 @@
 import 'package:ordered_iterable/ordered_iterable.dart';
 
 void main() {
-  _orderFruitsAndVegetablesByTypeThenByNameDescending();
-  _orderPersonsByNameThenByAgeDescending();
+  _orderFruitsAndVegetables();
+  _orderPersons();
 }
 
-void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
+void _orderFruitsAndVegetables() {
   const source = [
     ('fruit', 'banana'),
     ('vegetables', 'spinach'),
@@ -14,12 +14,12 @@ void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
     ('fruit', 'apple'),
     ('vegetables', 'potato'),
   ];
-  final result = source.orderBy((x) => x.$1).thenByDescending((x) => x.$2);
+  final result = source.orderBy((x) => x.$2).thenByDescending((x) => x.$1);
   _print(source);
   _print(result);
 }
 
-void _orderPersonsByNameThenByAgeDescending() {
+void _orderPersons() {
   final source = [
     _Person('Jarry', 19),
     _Person('Jarry', 22),
@@ -30,7 +30,7 @@ void _orderPersonsByNameThenByAgeDescending() {
   final byName = Comparer.create<_Person>((a, b) => a.name.compareTo(b.name));
   final byAge = Comparer.create<_Person>((a, b) => a.age.compareTo(b.age));
   final result =
-      source.orderBy((x) => x, byName).thenByDescending((x) => x, byAge);
+      source.orderByDescending((x) => x, byAge).thenBy((x) => x, byName);
   _print(source);
   _print(result);
 }

@@ -1,3 +1,7 @@
+## 1.0.3
+
+- The behavior of the ordering mechanism has been changed.
+
 ## 1.0.2
 
 - Renamed class `TypeHolder` to `_TypeHolder`.
