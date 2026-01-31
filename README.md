@@ -1,4 +1,4 @@
-# ordered_iterable
+# Ordered iterable
 
 Ordered iterable is a library for ordering collections (orderBy, orderByDescending, thenBy, thenByDescending).
 
@@ -11,7 +11,7 @@ Version: 1.0.1
 [![GitHub Stars](https://img.shields.io/github/stars/mezoni/ordered_iterable.svg)](https://github.com/mezoni/ordered_iterable/stargazers)
 [![GitHub License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://raw.githubusercontent.com/mezoni/ordered_iterable/main/LICENSE)
 
-- [ordered\_iterable](#ordered_iterable)
+- [Ordered iterable](#ordered-iterable)
   - [About this software](#about-this-software)
   - [Practical use](#practical-use)
 
