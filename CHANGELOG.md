@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Renamed class `TypeHolder` to `_TypeHolder`.
+
 ## 1.0.1
 
 - Minor changes in the `example/example.dart` file.

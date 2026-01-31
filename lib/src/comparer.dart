@@ -20,11 +20,11 @@ abstract class Comparer<T> {
   ///
   /// Otherwise, an exception is thrown..
   static Comparer<T> getDefault<T>() {
-    final typeHolder = TypeHolder<T>();
-    if (typeHolder is TypeHolder<Comparable<T>> ||
-        typeHolder is TypeHolder<Comparable<num>>) {
+    final typeHolder = _TypeHolder<T>();
+    if (typeHolder is _TypeHolder<Comparable<T>> ||
+        typeHolder is _TypeHolder<Comparable<num>>) {
       return _GenericComparer<T>(Comparable.compare as int Function(T, T));
-    } else if (typeHolder is TypeHolder<bool>) {
+    } else if (typeHolder is _TypeHolder<bool>) {
       int compare(bool a, bool b) {
         if (a == b) {
           return 0;
@@ -40,10 +40,6 @@ abstract class Comparer<T> {
 
     throw StateError('Unable to determine default comparer');
   }
-}
-
-class TypeHolder<T> {
-  //
 }
 
 class _GenericComparer<T> implements Comparer<T> {
@@ -67,4 +63,8 @@ class _GenericComparer<T> implements Comparer<T> {
 
     return _compare(a, b);
   }
+}
+
+class _TypeHolder<T> {
+  //
 }
