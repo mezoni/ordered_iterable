@@ -1,11 +1,11 @@
 import 'package:ordered_iterable/ordered_iterable.dart';
 
 void main() {
-  _orderFruitsAndVegetables();
-  _orderPersons();
+  _orderFruitsAndVegetablesByTypeThenByNameDescending();
+  _orderPersonsByNameThenByAgeDescending();
 }
 
-void _orderFruitsAndVegetables() {
+void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
   const source = [
     ('fruit', 'banana'),
     ('vegetables', 'spinach'),
@@ -14,12 +14,12 @@ void _orderFruitsAndVegetables() {
     ('fruit', 'apple'),
     ('vegetables', 'potato'),
   ];
-  final result = source.orderBy((x) => x.$2).thenByDescending((x) => x.$1);
+  final result = source.orderBy((x) => x.$1).thenByDescending((x) => x.$2);
   _print(source);
   _print(result);
 }
 
-void _orderPersons() {
+void _orderPersonsByNameThenByAgeDescending() {
   final source = [
     _Person('Jarry', 19),
     _Person('Jarry', 22),
@@ -30,7 +30,7 @@ void _orderPersons() {
   final byName = Comparer.create<_Person>((a, b) => a.name.compareTo(b.name));
   final byAge = Comparer.create<_Person>((a, b) => a.age.compareTo(b.age));
   final result =
-      source.orderByDescending((x) => x, byAge).thenBy((x) => x, byName);
+      source.orderBy((x) => x, byName).thenByDescending((x) => x, byAge);
   _print(source);
   _print(result);
 }

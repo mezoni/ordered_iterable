@@ -59,7 +59,7 @@ void _test() {
         ('vegetables', 'potato'),
       ];
 
-      final result = source.orderBy((x) => x.$2).thenBy((x) => x.$1);
+      final result = source.orderBy((x) => x.$1).thenBy((x) => x.$2);
       expect(result, [
         ('fruit', 'apple'),
         ('fruit', 'banana'),
@@ -82,7 +82,7 @@ void _test() {
         ('vegetables', 'potato'),
       ];
 
-      final result = source.orderByDescending((x) => x.$2).thenBy((x) => x.$1);
+      final result = source.orderBy((x) => x.$1).thenByDescending((x) => x.$2);
       expect(result, [
         ('fruit', 'mango'),
         ('fruit', 'banana'),

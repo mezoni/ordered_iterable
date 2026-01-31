@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Undoing changes from the previous version.
+
 ## 1.0.3
 
 - The behavior of the ordering mechanism has been changed.
