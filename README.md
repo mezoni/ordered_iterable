@@ -2,7 +2,7 @@
 
 Ordered iterable is a library for ordering collections (orderBy, orderByDescending, thenBy, thenByDescending).
 
-Version: 1.0.0
+Version: 1.0.1
 
 [![Pub Package](https://img.shields.io/pub/v/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable)
 [![Pub Monthly Downloads](https://img.shields.io/pub/dm/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable/score)
@@ -37,11 +37,11 @@ Example:
 import 'package:ordered_iterable/ordered_iterable.dart';
 
 void main() {
-  _orderFruitsAndVegetablesByTypeThanByNameDescending();
-  _orderPersonsByName();
+  _orderFruitsAndVegetablesByTypeThenByNameDescending();
+  _orderPersonsByNameThenByAgeDescending();
 }
 
-void _orderFruitsAndVegetablesByTypeThanByNameDescending() {
+void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
   const source = [
     ('fruit', 'banana'),
     ('vegetables', 'spinach'),
@@ -55,15 +55,18 @@ void _orderFruitsAndVegetablesByTypeThanByNameDescending() {
   _print(result);
 }
 
-void _orderPersonsByName() {
+void _orderPersonsByNameThenByAgeDescending() {
   final source = [
+    _Person('Jarry', 19),
     _Person('Jarry', 22),
     _Person('John', 20),
     null,
     _Person('Jack', 21),
   ];
-  final comparer = Comparer.create<_Person>((a, b) => a.name.compareTo(b.name));
-  final result = source.orderBy((x) => x, comparer);
+  final byName = Comparer.create<_Person>((a, b) => a.name.compareTo(b.name));
+  final byAge = Comparer.create<_Person>((a, b) => a.age.compareTo(b.age));
+  final result =
+      source.orderBy((x) => x, byName).thenByDescending((x) => x, byAge);
   _print(source);
   _print(result);
 }
@@ -122,6 +125,7 @@ class _Person {
 (vegetables, potato)
 (vegetables, cucumbers)
 ----------------------------------------
+Jarry (19)
 Jarry (22)
 John (20)
 null
@@ -130,5 +134,6 @@ Jack (21)
 null
 Jack (21)
 Jarry (22)
+Jarry (19)
 John (20)
 ```
