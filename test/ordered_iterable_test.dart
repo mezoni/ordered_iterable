@@ -95,6 +95,32 @@ void _test() {
   }
 
   {
+    test('thenByDescending()', () {
+      final source = [
+        ('A', 1, 1),
+        ('A', 1, 2),
+        ('A', 2, 2),
+        ('B', 3, 3),
+        ('B', 3, 4),
+        ('B', 4, 4),
+      ];
+
+      final result = source
+          .orderByDescending((x) => x.$1)
+          .thenByDescending((x) => x.$2)
+          .thenByDescending((x) => x.$3);
+      expect(result, [
+        ('B', 4, 4),
+        ('B', 3, 4),
+        ('B', 3, 3),
+        ('A', 2, 2),
+        ('A', 1, 2),
+        ('A', 1, 1),
+      ]);
+    });
+  }
+
+  {
     test('Comparer of nullable values', () {
       final source = [
         _Person('Jarry', 22),

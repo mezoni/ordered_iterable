@@ -1,11 +1,19 @@
 import 'package:ordered_iterable/ordered_iterable.dart';
 
 void main() {
-  _orderFruitsAndVegetablesByTypeThenByNameDescending();
-  _orderPersonsByNameThenByAgeDescending();
+  _sortNumbersInDescendingOrder();
+  _sortFruitsAndVegetablesByTypeThenByNameDescending();
+  _sortPersonsByNameThenByAgeDescending();
 }
 
-void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
+void _print<E>(Iterable<E> collection) {
+  print('-' * 40);
+  for (final element in collection) {
+    print(element);
+  }
+}
+
+void _sortFruitsAndVegetablesByTypeThenByNameDescending() {
   const source = [
     ('fruit', 'banana'),
     ('vegetables', 'spinach'),
@@ -19,7 +27,24 @@ void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
   _print(result);
 }
 
-void _orderPersonsByNameThenByAgeDescending() {
+void _sortNumbersInDescendingOrder() {
+  const source = [
+    (1, 1, 1),
+    (2, 3, 3),
+    (1, 1, 2),
+    (2, 2, 1),
+    (1, 2, 3),
+    (2, 2, 2),
+  ];
+  final result = source
+      .orderByDescending((x) => x.$1)
+      .thenByDescending((x) => x.$2)
+      .thenByDescending((x) => x.$3);
+  _print(source);
+  _print(result);
+}
+
+void _sortPersonsByNameThenByAgeDescending() {
   final source = [
     _Person('Jarry', 19),
     _Person('Jarry', 22),
@@ -33,13 +58,6 @@ void _orderPersonsByNameThenByAgeDescending() {
       source.orderBy((x) => x, byName).thenByDescending((x) => x, byAge);
   _print(source);
   _print(result);
-}
-
-void _print<E>(Iterable<E> collection) {
-  print('-' * 40);
-  for (final element in collection) {
-    print(element);
-  }
 }
 
 class _Person {

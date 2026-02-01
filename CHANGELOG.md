@@ -1,3 +1,7 @@
+## 1.0.5
+
+- The multi-level (hierarchical) sorting algorithm has been refactored.
+
 ## 1.0.4
 
 - Undoing changes from the previous version.

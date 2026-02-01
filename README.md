@@ -1,8 +1,8 @@
 # Ordered iterable
 
-Ordered iterable is a library for ordering collections (orderBy, orderByDescending, thenBy, thenByDescending).
+Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).
 
-Version: 1.0.4
+Version: 1.0.5
 
 [![Pub Package](https://img.shields.io/pub/v/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable)
 [![Pub Monthly Downloads](https://img.shields.io/pub/dm/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable/score)
@@ -17,8 +17,9 @@ Version: 1.0.4
 
 ## About this software
 
-Ordered iterable is a library for ordering collections (orderBy, orderByDescending, thenBy, thenByDescending).  
-It implements methods that allow to order (sort) collections more than once (use additional sorting).  
+Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).  
+It implements methods that allows sorting collections by more than one key simultaneously.  
+Hierarchical sorting defines a primary sort key, with subsequent keys (secondary, tertiary) sorting elements within the previous, higher-level groups.
 
 List of sorting methods:
 
@@ -37,11 +38,19 @@ Example:
 import 'package:ordered_iterable/ordered_iterable.dart';
 
 void main() {
-  _orderFruitsAndVegetablesByTypeThenByNameDescending();
-  _orderPersonsByNameThenByAgeDescending();
+  _sortNumbersInDescendingOrder();
+  _sortFruitsAndVegetablesByTypeThenByNameDescending();
+  _sortPersonsByNameThenByAgeDescending();
 }
 
-void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
+void _print<E>(Iterable<E> collection) {
+  print('-' * 40);
+  for (final element in collection) {
+    print(element);
+  }
+}
+
+void _sortFruitsAndVegetablesByTypeThenByNameDescending() {
   const source = [
     ('fruit', 'banana'),
     ('vegetables', 'spinach'),
@@ -55,7 +64,24 @@ void _orderFruitsAndVegetablesByTypeThenByNameDescending() {
   _print(result);
 }
 
-void _orderPersonsByNameThenByAgeDescending() {
+void _sortNumbersInDescendingOrder() {
+  const source = [
+    (1, 1, 1),
+    (2, 3, 3),
+    (1, 1, 2),
+    (2, 2, 1),
+    (1, 2, 3),
+    (2, 2, 2),
+  ];
+  final result = source
+      .orderByDescending((x) => x.$1)
+      .thenByDescending((x) => x.$2)
+      .thenByDescending((x) => x.$3);
+  _print(source);
+  _print(result);
+}
+
+void _sortPersonsByNameThenByAgeDescending() {
   final source = [
     _Person('Jarry', 19),
     _Person('Jarry', 22),
@@ -69,13 +95,6 @@ void _orderPersonsByNameThenByAgeDescending() {
       source.orderBy((x) => x, byName).thenByDescending((x) => x, byAge);
   _print(source);
   _print(result);
-}
-
-void _print<E>(Iterable<E> collection) {
-  print('-' * 40);
-  for (final element in collection) {
-    print(element);
-  }
 }
 
 class _Person {
@@ -110,6 +129,20 @@ class _Person {
 **Output:**
 
 ```txt
+----------------------------------------
+(1, 1, 1)
+(2, 3, 3)
+(1, 1, 2)
+(2, 2, 1)
+(1, 2, 3)
+(2, 2, 2)
+----------------------------------------
+(2, 3, 3)
+(2, 2, 2)
+(2, 2, 1)
+(1, 2, 3)
+(1, 1, 2)
+(1, 1, 1)
 ----------------------------------------
 (fruit, banana)
 (vegetables, spinach)

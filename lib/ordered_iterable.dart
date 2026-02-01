@@ -17,13 +17,17 @@ extension OrderedIterableExtension<E> on Iterable<E> {
   /// [keySelector] function in ascending order.
   OrderedIterable<E> orderBy<TKey>(TKey Function(E) keySelector,
       [Comparer<TKey>? comparer]) {
-    return OrderedIterableImpl(this, keySelector, false, comparer, null);
+    return OrderedIterable(this)
+      ..addOrdering(
+          comparer: comparer, descending: false, keySelector: keySelector);
   }
 
   /// Performs a sort on this collection by the key returned by the
   /// [keySelector] function in descending order.
   OrderedIterable<E> orderByDescending<TKey>(TKey Function(E) keySelector,
       [Comparer<TKey>? comparer]) {
-    return OrderedIterableImpl(this, keySelector, true, comparer, null);
+    return OrderedIterable(this)
+      ..addOrdering(
+          comparer: comparer, descending: true, keySelector: keySelector);
   }
 }
