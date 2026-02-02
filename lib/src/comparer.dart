@@ -38,7 +38,7 @@ abstract class Comparer<T> {
       return _GenericComparer<T>(compare as int Function(T, T));
     }
 
-    throw StateError('Unable to determine default comparer');
+    throw StateError('Unable to determine default comparer for <$T> type');
   }
 }
 

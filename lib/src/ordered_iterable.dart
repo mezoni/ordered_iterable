@@ -118,7 +118,7 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       }
 
       // Freeing up memory.
-      output = [];
+      output = input;
     }
 
     return generate().iterator;

@@ -40,7 +40,12 @@ import 'package:ordered_iterable/ordered_iterable.dart';
 void main() {
   _sortNumbersInDescendingOrder();
   _sortFruitsAndVegetablesByTypeThenByNameDescending();
+  _sortOrdersByDateThenByStatusThenByAmountDescending();
   _sortPersonsByNameThenByAgeDescending();
+}
+
+DateTime _date(String date) {
+  return DateTime.parse(date);
 }
 
 void _print<E>(Iterable<E> collection) {
@@ -81,6 +86,27 @@ void _sortNumbersInDescendingOrder() {
   _print(result);
 }
 
+void _sortOrdersByDateThenByStatusThenByAmountDescending() {
+  final orders = [
+    (_date('20250102'), OrderStatus.shipped, 150.00),
+    (_date('20250101'), OrderStatus.canceled, 100.00),
+    (_date('20250102'), OrderStatus.shipped, 200.00),
+    (_date('20250101'), OrderStatus.pending, 200.00),
+    (_date('20250102'), OrderStatus.pending, 100.00),
+    (_date('20250101'), OrderStatus.pending, 1000.00),
+    (_date('20250102'), OrderStatus.pending, 1500.00),
+  ];
+
+  final byStatus =
+      Comparer.create<OrderStatus>((a, b) => a.name.compareTo(b.name));
+  final result = orders
+      .orderBy((x) => x.$1)
+      .thenBy((x) => x.$2, byStatus)
+      .thenByDescending((x) => x.$3);
+  _print(orders);
+  _print(result);
+}
+
 void _sortPersonsByNameThenByAgeDescending() {
   final source = [
     _Person('Jarry', 19),
@@ -97,26 +123,14 @@ void _sortPersonsByNameThenByAgeDescending() {
   _print(result);
 }
 
+enum OrderStatus { canceled, created, pending, shipped }
+
 class _Person {
   final int age;
 
   final String name;
 
   _Person(this.name, this.age);
-
-  @override
-  // ignore: hash_and_equals
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    if (other is _Person) {
-      return name == other.name && age == other.age;
-    }
-
-    return false;
-  }
 
   @override
   String toString() {
@@ -157,6 +171,22 @@ class _Person {
 (vegetables, spinach)
 (vegetables, potato)
 (vegetables, cucumbers)
+----------------------------------------
+(2025-01-02 00:00:00.000, OrderStatus.shipped, 150.0)
+(2025-01-01 00:00:00.000, OrderStatus.canceled, 100.0)
+(2025-01-02 00:00:00.000, OrderStatus.shipped, 200.0)
+(2025-01-01 00:00:00.000, OrderStatus.pending, 200.0)
+(2025-01-02 00:00:00.000, OrderStatus.pending, 100.0)
+(2025-01-01 00:00:00.000, OrderStatus.pending, 1000.0)
+(2025-01-02 00:00:00.000, OrderStatus.pending, 1500.0)
+----------------------------------------
+(2025-01-01 00:00:00.000, OrderStatus.canceled, 100.0)
+(2025-01-01 00:00:00.000, OrderStatus.pending, 1000.0)
+(2025-01-01 00:00:00.000, OrderStatus.pending, 200.0)
+(2025-01-02 00:00:00.000, OrderStatus.pending, 1500.0)
+(2025-01-02 00:00:00.000, OrderStatus.pending, 100.0)
+(2025-01-02 00:00:00.000, OrderStatus.shipped, 200.0)
+(2025-01-02 00:00:00.000, OrderStatus.shipped, 150.0)
 ----------------------------------------
 Jarry (19)
 Jarry (22)
