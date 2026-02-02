@@ -6,6 +6,9 @@ export 'src/comparer.dart';
 /// The [OrderedIterableExtension] extension implements functionality that
 /// supports multiple additional sorting using different keys.
 ///
+/// Actual sorting is performed on demand (as is usually the case when using
+/// the [Iterable] functionality).
+///
 /// The following methods are available for sorting:
 ///
 /// - orderBy

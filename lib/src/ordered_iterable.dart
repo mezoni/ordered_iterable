@@ -44,7 +44,7 @@ class OrderedIterable<TElement> with Iterable<TElement> {
   }
 
   Iterator<TElement> _getIterator() {
-    final list = _source is List ? _source as List<TElement> : _source.toList();
+    final list = _source.toList();
     if (list.length < 2) {
       return list.iterator;
     }
@@ -53,7 +53,9 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       return list.iterator;
     }
 
+    // Also known as a group list.
     var input = [list];
+    // The same list as input.
     var output = <List<TElement>>[];
     for (var index = 0; index < _orderings.length; index++) {
       final ordering = _orderings[index];
@@ -70,9 +72,9 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       }
 
       for (var i = 0; i < input.length; i++) {
-        final elements = input[i];
+        final group = input[i];
         final sorter = SymmergeSorter(compare);
-        sorter.sort(elements);
+        sorter.sort(group);
       }
 
       if (index == _orderings.length - 1) {
@@ -80,48 +82,48 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       } else {
         output = [];
         for (var i = 0; i < input.length; i++) {
-          final elements = input[i];
-          if (elements.isEmpty) {
+          final group = input[i];
+          if (group.isEmpty) {
             continue;
           }
 
-          var previous = elements[0];
-          var newElements = [previous];
-          output.add(newElements);
-          for (var j = 1; j < elements.length; j++) {
-            final element = elements[j];
+          var previous = group[0];
+          // Create new group.
+          var newGroup = [previous];
+          // Start processing current group.
+          output.add(newGroup);
+          for (var j = 1; j < group.length; j++) {
+            final element = group[j];
             if (compare(element, previous) == 0) {
-              newElements.add(element);
+              // An element from the current group.
+              newGroup.add(element);
             } else {
-              newElements = [element];
-              output.add(newElements);
+              // An element from another group.
+              // Switching to processing this group.
+              newGroup = [element];
+              output.add(newGroup);
             }
 
             previous = element;
           }
         }
 
+        // Now the output data becomes the input for the next stage of sorting.
         input = output;
       }
     }
 
     // Freeing up memory.
     input = [];
-
-    Iterable<TElement> generate() sync* {
-      for (var i = 0; i < output.length; i++) {
-        final elements = output[i];
-        for (var j = 0; j < elements.length; j++) {
-          final element = elements[j];
-          yield element;
-        }
-      }
-
-      // Freeing up memory.
-      output = input;
+    final result = <TElement>[];
+    // Transform elements from all groups into a flat list.
+    for (var i = 0; i < output.length; i++) {
+      result.addAll(output[i]);
     }
 
-    return generate().iterator;
+    // Freeing up memory.
+    output = input;
+    return result.iterator;
   }
 }
 

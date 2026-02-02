@@ -1,6 +1,6 @@
 ## 1.0.7
 
-- Minor improvement to the `OrderedIterable` iterator creation algorithm. If the input data (source) is a `List`, then the data is used as is, without being converted to a `List`.
+- Minor changes to the `OrderedIterable` iterator creation algorithm.
 
 ## 1.0.6
 

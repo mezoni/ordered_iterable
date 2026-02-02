@@ -16,22 +16,22 @@ void main() {
   }
 }
 
-List<(T, T, T)> _generateData<T>(List<T> map) {
+List<_Record<T>> _generateData<T>(List<T> map) {
   final r1 = Random(1);
   final r2 = Random(2);
   final r3 = Random(3);
-  final data = <(T, T, T)>[];
+  final data = <_Record<T>>[];
   for (var i = 0; i < 100000; i++) {
     final e1 = map[r1.nextInt(100)];
     final e2 = map[r2.nextInt(100)];
     final e3 = map[r3.nextInt(100)];
-    data.add((e1, e2, e3));
+    data.add(_Record(e1, e2, e3));
   }
 
   return data;
 }
 
-void _sort<T>(List<(T, T, T)> data) {
+void _sort<T>(List<_Record<T>> data) {
   final sw = Stopwatch();
   sw.start();
   // ignore: unused_local_variable
@@ -46,4 +46,19 @@ void _sort<T>(List<(T, T, T)> data) {
       "Sorting ${data.length} <${data.runtimeType}> elements (by 3 keys simultaneously) take ${sw.elapsedMilliseconds / 1000} s");
   print('First element: ${result.first}');
   print('Last element: ${result.last}');
+}
+
+class _Record<T> {
+  final T $1;
+
+  final T $2;
+
+  final T $3;
+
+  _Record(this.$1, this.$2, this.$3);
+
+  @override
+  String toString() {
+    return '${$1}, ${$2}, ${$3}';
+  }
 }

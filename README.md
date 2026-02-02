@@ -19,18 +19,21 @@ Version: 1.0.7
 
 Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).  
 It implements methods that allows sorting collections by more than one key simultaneously.  
-Hierarchical sorting defines a primary sort key, with subsequent keys (secondary, tertiary) sorting elements within the previous, higher-level groups.
+Hierarchical sorting defines a primary sort key, and subsequent keys (secondary, tertiary) sort the elements within previous higher-level groups.
 
 List of sorting methods:
 
-- orderBy (Iterable)
-- orderByDescending (Iterable)
-- thenBy (OrderedIterable)
-- thenByDescending (OrderedIterable)
+- orderBy (Iterable, primary)
+- orderByDescending (Iterable, primary)
+- thenBy (OrderedIterable, subsequent)
+- thenByDescending (OrderedIterable, subsequent)
+
+Sorting of data containing `null` is supported.  
+Sorting of non-comparable data (data that does not implement the `Comparable` interface) is supported by using custom comparers.
 
 ## Practical use
 
-A practical use is sorting collections with additional ordering.
+A practical use is sorting collections with additional ordering.  
 
 Example:
 
