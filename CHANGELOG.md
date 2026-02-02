@@ -1,6 +1,10 @@
+## 1.0.7
+
+- Minor improvement to the `OrderedIterable` iterator creation algorithm. If the input data (source) is a `List`, then the data is used as is, without being converted to a `List`.
+
 ## 1.0.6
 
-- Minor improvement to the `Iterator` creation algorithm. Added freeing of unused memory.
+- Minor improvement to the `OrderedIterable` iterator algorithm. Added freeing of unused memory.
 
 ## 1.0.5
 

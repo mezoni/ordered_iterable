@@ -44,7 +44,7 @@ class OrderedIterable<TElement> with Iterable<TElement> {
   }
 
   Iterator<TElement> _getIterator() {
-    final list = _source.toList();
+    final list = _source is List ? _source as List<TElement> : _source.toList();
     if (list.length < 2) {
       return list.iterator;
     }
