@@ -68,20 +68,6 @@ class _Person {
   _Person(this.name, this.age);
 
   @override
-  // ignore: hash_and_equals
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    if (other is _Person) {
-      return name == other.name && age == other.age;
-    }
-
-    return false;
-  }
-
-  @override
   String toString() {
     return '$name ($age)';
   }

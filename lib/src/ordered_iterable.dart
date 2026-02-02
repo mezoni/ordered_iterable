@@ -12,7 +12,7 @@ class OrderedIterable<TElement> with Iterable<TElement> {
 
   @override
   Iterator<TElement> get iterator {
-    return _order().iterator;
+    return _getIterator();
   }
 
   /// Adds another sorting level criteria and parameters.
@@ -43,14 +43,14 @@ class OrderedIterable<TElement> with Iterable<TElement> {
     return this;
   }
 
-  Iterable<TElement> _order() {
+  Iterator<TElement> _getIterator() {
     final list = _source.toList();
     if (list.length < 2) {
-      return list;
+      return list.iterator;
     }
 
     if (_orderings.isEmpty) {
-      return list;
+      return list.iterator;
     }
 
     var input = [list];
@@ -105,6 +105,9 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       }
     }
 
+    // Freeing up memory.
+    input = [];
+
     Iterable<TElement> generate() sync* {
       for (var i = 0; i < output.length; i++) {
         final elements = output[i];
@@ -113,9 +116,12 @@ class OrderedIterable<TElement> with Iterable<TElement> {
           yield element;
         }
       }
+
+      // Freeing up memory.
+      output = [];
     }
 
-    return generate();
+    return generate().iterator;
   }
 }
 

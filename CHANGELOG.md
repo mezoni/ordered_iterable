@@ -1,3 +1,7 @@
+## 1.0.6
+
+- Minor improvement to the `Iterator` creation algorithm. Added freeing of unused memory.
+
 ## 1.0.5
 
 - The multi-level (hierarchical) sorting algorithm has been refactored.
