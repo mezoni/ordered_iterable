@@ -2,7 +2,7 @@
 
 Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).
 
-Version: 1.0.7
+Version: 1.0.8
 
 [![Pub Package](https://img.shields.io/pub/v/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable)
 [![Pub Monthly Downloads](https://img.shields.io/pub/dm/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable/score)

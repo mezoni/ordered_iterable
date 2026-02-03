@@ -121,6 +121,41 @@ void _test() {
   }
 
   {
+    test('thenByDescending() x 5', () {
+      const count = 50;
+      final source = <(int, int, int, int, int)>[];
+      for (var i = 0; i < count; i++) {
+        source.add((i, i, i, i, i));
+      }
+
+      final result = source
+          .orderByDescending((x) => x.$1)
+          .thenByDescending((x) => x.$2)
+          .thenByDescending((x) => x.$3)
+          .thenByDescending((x) => x.$4)
+          .thenByDescending((x) => x.$5)
+          .toList();
+
+      final list = <(int, int, int, int, int)>[];
+      for (var i = count - 1; i >= 0; i--) {
+        list.add((i, i, i, i, i));
+      }
+
+      expect(
+          result,
+          List.generate(
+              count,
+              (i) => (
+                    count - i - 1,
+                    count - i - 1,
+                    count - i - 1,
+                    count - i - 1,
+                    count - i - 1
+                  )));
+    });
+  }
+
+  {
     test('Comparer of nullable values', () {
       final source = [
         _Person('Jarry', 22),

@@ -1,5 +1,6 @@
+import 'package:collection/collection.dart';
+
 import 'comparer.dart';
-import 'symmerge_sorter.dart';
 
 /// The [OrderedIterable] class implements the functionality of an [Iterable]
 /// sorted by a specific key.
@@ -73,8 +74,23 @@ class OrderedIterable<TElement> with Iterable<TElement> {
 
       for (var i = 0; i < input.length; i++) {
         final group = input[i];
-        final sorter = SymmergeSorter(compare);
-        sorter.sort(group);
+        final length = group.length;
+        if (length < 2) {
+          // Nothing
+        } else if (length == 2) {
+          final a = group[0];
+          final b = group[1];
+          final x = compare(a, b);
+          if (x < 0) {
+            group[0] = a;
+            group[1] = b;
+          } else if (x > 0) {
+            group[0] = b;
+            group[1] = a;
+          }
+        } else {
+          mergeSort(group, start: 0, compare: compare);
+        }
       }
 
       if (index == _orderings.length - 1) {
@@ -113,16 +129,12 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       }
     }
 
-    // Freeing up memory.
-    input = [];
     final result = <TElement>[];
     // Transform elements from all groups into a flat list.
     for (var i = 0; i < output.length; i++) {
       result.addAll(output[i]);
     }
 
-    // Freeing up memory.
-    output = input;
     return result.iterator;
   }
 }

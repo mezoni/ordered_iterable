@@ -1,3 +1,7 @@
+## 1.0.8
+
+- Changes to the `OrderedIterable` sorting algorithm.
+
 ## 1.0.7
 
 - Minor changes to the `OrderedIterable` iterator creation algorithm.
