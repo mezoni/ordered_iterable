@@ -129,6 +129,8 @@ class OrderedIterable<TElement> with Iterable<TElement> {
       }
     }
 
+    // Freeing up memory
+    input = [];
     final result = <TElement>[];
     // Transform elements from all groups into a flat list.
     for (var i = 0; i < output.length; i++) {
