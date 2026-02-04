@@ -1,6 +1,6 @@
 name: ordered_iterable
 description: Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).
-version: 1.0.8
+version: 1.0.9
 homepage: https://github.com/mezoni/ordered_iterable
 topics:
   - sort
