@@ -1,3 +1,7 @@
+## 1.0.9
+
+- Minor changes to the `Comparer`.
+
 ## 1.0.8
 
 - Changes to the `OrderedIterable` sorting algorithm.

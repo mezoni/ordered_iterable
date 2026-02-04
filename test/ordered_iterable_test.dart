@@ -121,6 +121,66 @@ void _test() {
   }
 
   {
+    test('thenByDescending() bool', () {
+      final source = [
+        (false, false, false),
+        (false, false, true),
+        (false, true, false),
+        (false, true, true),
+        (true, false, false),
+        (true, false, true),
+        (true, true, false),
+        (true, true, true),
+      ];
+
+      final result = source
+          .orderByDescending((x) => x.$1)
+          .thenByDescending((x) => x.$2)
+          .thenByDescending((x) => x.$3);
+      expect(result, [
+        (true, true, true),
+        (true, true, false),
+        (true, false, true),
+        (true, false, false),
+        (false, true, true),
+        (false, true, false),
+        (false, false, true),
+        (false, false, false),
+      ]);
+    });
+  }
+
+  {
+    test('thenByDescending() String', () {
+      final source = [
+        ('false', 'false', 'false'),
+        ('false', 'false', 'true'),
+        ('false', 'true', 'false'),
+        ('false', 'true', 'true'),
+        ('true', 'false', 'false'),
+        ('true', 'false', 'true'),
+        ('true', 'true', 'false'),
+        ('true', 'true', 'true'),
+      ];
+
+      final result = source
+          .orderByDescending((x) => x.$1)
+          .thenByDescending((x) => x.$2)
+          .thenByDescending((x) => x.$3);
+      expect(result, [
+        ('true', 'true', 'true'),
+        ('true', 'true', 'false'),
+        ('true', 'false', 'true'),
+        ('true', 'false', 'false'),
+        ('false', 'true', 'true'),
+        ('false', 'true', 'false'),
+        ('false', 'false', 'true'),
+        ('false', 'false', 'false'),
+      ]);
+    });
+  }
+
+  {
     test('thenByDescending() x 5', () {
       const count = 50;
       final source = <(int, int, int, int, int)>[];
@@ -159,6 +219,7 @@ void _test() {
     test('Comparer of nullable values', () {
       final source = [
         _Person('Jarry', 22),
+        null,
         _Person('John', 20),
         _Person('Jack', 21),
         null,
@@ -169,6 +230,7 @@ void _test() {
 
       final result = source.orderBy((x) => x, comparer);
       expect(result, [
+        null,
         null,
         _Person('Jack', 21),
         _Person('Jarry', 22),
