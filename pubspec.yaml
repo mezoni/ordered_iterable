@@ -1,6 +1,6 @@
 name: ordered_iterable
 description: Multi-level (by more than one key simultaneously), hierarchical, stable sorting of iterable collections (orderBy, orderByDescending, thenBy, thenByDescending).
-version: 1.0.9
+version: 1.0.10
 homepage: https://github.com/mezoni/ordered_iterable
 topics:
   - sort
