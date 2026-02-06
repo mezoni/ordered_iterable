@@ -1,8 +1,8 @@
 # Ordered iterable
 
-Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).
+Multi-level (by more than one key simultaneously), hierarchical, stable sorting of iterable collections (orderBy, orderByDescending, thenBy, thenByDescending).
 
-Version: 1.0.9
+Version: 1.0.10
 
 [![Pub Package](https://img.shields.io/pub/v/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable)
 [![Pub Monthly Downloads](https://img.shields.io/pub/dm/ordered_iterable.svg)](https://pub.dev/packages/ordered_iterable/score)
@@ -14,10 +14,12 @@ Version: 1.0.9
 - [Ordered iterable](#ordered-iterable)
   - [About this software](#about-this-software)
   - [Practical use](#practical-use)
+  - [How to sort lists directly](#how-to-sort-lists-directly)
 
 ## About this software
 
-Ordered iterable is a library for multi-level (hierarchical) sorting of collections (orderBy, orderByDescending, thenBy, thenByDescending).  
+Multi-level (by more than one key simultaneously), hierarchical, stable sorting of iterable collections (orderBy, orderByDescending, thenBy, thenByDescending).  
+
 It implements methods that allows sorting collections by more than one key simultaneously.  
 Hierarchical sorting defines a primary sort key, and subsequent keys (secondary, tertiary) sort the elements within previous higher-level groups.
 
@@ -202,4 +204,50 @@ Jack (21)
 Jarry (22)
 Jarry (19)
 John (20)
+```
+
+## How to sort lists directly
+
+It's impossible to sort (by more than one key simultaneously) a list directly (in place).  
+The reason is that the source data is divided into groups (uses hierarchy).  
+That is, the sorting process creates a hierarchical list.  
+
+However, sorting a list can be implemented using an intermediate list.  
+Below is an example of how this can be implemented.
+
+```dart
+import 'package:ordered_iterable/ordered_iterable.dart';
+
+void main(List<String> args) {
+  final list = [
+    (1, 1, 1),
+    (2, 3, 3),
+    (1, 1, 2),
+    (2, 2, 1),
+    (1, 2, 3),
+    (2, 2, 2),
+  ];
+  final result = list
+      .orderByDescending((x) => x.$1)
+      .thenByDescending((x) => x.$2)
+      .thenByDescending((x) => x.$3)
+      .toList();
+
+  _replace(result, list);
+  for (final element in list) {
+    print(element);
+  }
+}
+
+void _replace<E>(List<E> src, List<E> dst) {
+  final length = src.length;
+  if (dst.length != length) {
+    throw ArgumentError('The lengths of the lists are not equal');
+  }
+
+  for (var i = 0; i < length; i++) {
+    dst[i] = src[i];
+  }
+}
+
 ```

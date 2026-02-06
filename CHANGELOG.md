@@ -1,3 +1,7 @@
+## 1.0.10
+
+- Added an example of list sorting (`example_sort_list.dart`).
+
 ## 1.0.9
 
 - Minor changes to the `Comparer`.
